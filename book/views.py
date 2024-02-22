@@ -11,6 +11,7 @@ from django.utils.decorators import method_decorator
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import AllowAny 
 
 
 
@@ -21,6 +22,7 @@ class RegisterAPI(APIView):
     and a success message is returned.
     
     """
+    permission_classes = [AllowAny]  # Allow any user to access this view
     def post(self, request):
         _data = request.data
         serializer = RegisterSerializer(data = _data)
@@ -40,6 +42,7 @@ class LoginAPI(APIView):
     and returned to the client, allowing access to authenticated endpoints.
     
     """
+    permission_classes = [AllowAny] # Allow any user to access this view
     def post(self, request):
         _data = request.data
         serializer = LoginSerializer(data = _data)
