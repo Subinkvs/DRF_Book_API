@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from book.models import Book
 
 
+
 class RegisterSerializer(serializers.Serializer):
     """
     Serializer for user registration.
@@ -56,3 +57,4 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = '__all__'
+        

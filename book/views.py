@@ -12,6 +12,7 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny 
+from rest_framework.pagination import LimitOffsetPagination
 
 
 
@@ -59,12 +60,12 @@ class LoginAPI(APIView):
         
         return Response({'message':'Login successfull', 'token':str(token)})
 
-class setPagination(PageNumberPagination):
-    """
-    limit the number of items per page
+# class setPagination(PageNumberPagination):
+#     """
+#     limit the number of items per page
     
-    """
-    page_size = 2
+#     """
+#     page_size = 2
     
 
 @method_decorator(cache_page(60 * 60 * 2), name='dispatch') # Cache the response for 2 hours
@@ -84,7 +85,20 @@ class BookListCreateView(generics.ListCreateAPIView):
     
     queryset = Book.objects.prefetch_related()
     serializer_class = BookSerializer
-    pagination_class = setPagination
+    pagination_class = LimitOffsetPagination
+    pagination_class.default_limit = 10  
+    pagination_class.limit_query_param = 'limit'  
+    pagination_class.offset_query_param = 'offset'  
+    
+    def get(self, request):
+        queryset = Book.objects.all()
+        paginator = self.pagination_class()
+        paginated_queryset = paginator.paginate_queryset(queryset, request)
+        serializer = BookSerializer(paginated_queryset, many=True)
+        return paginator.get_paginated_response(serializer.data)
+
+    
+    
 
 @permission_classes([IsAuthenticated])       
 class BookRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
