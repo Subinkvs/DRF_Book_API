@@ -110,7 +110,7 @@ class BookRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     a specific book identified by its ID.
 
     Permissions:
-        - The user must be authenticated to access this endpoint.
+        - The user must be authenticated to access this endpoint...
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
