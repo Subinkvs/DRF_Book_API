@@ -80,7 +80,8 @@ class BookListCreateView(generics.ListCreateAPIView):
     Permissions:
         - The user must be authenticated to access this endpoint.
     Pagination:
-        - Allow the client to request a specific page and limit the number of items per page.
+        - Allow the client to request a specific page and limit the number of items per page
+          using limit and offset.
     """    
     
     queryset = Book.objects.prefetch_related()
