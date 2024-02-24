@@ -87,7 +87,7 @@ class BookListCreateView(generics.ListCreateAPIView):
     queryset = Book.objects.prefetch_related()
     serializer_class = BookSerializer
     pagination_class = LimitOffsetPagination
-    pagination_class.default_limit = 10  
+    pagination_class.default_limit = 2  
     pagination_class.limit_query_param = 'limit'  
     pagination_class.offset_query_param = 'offset'  
     
